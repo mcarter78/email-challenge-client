@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
-require ('es6-promise').polyfill();
-import 'isomorphic-fetch';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Card from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
+import { getUser } from './utils/utils';
 import './App.css';
 
+const styles = {
+  card: {
+    height: 'inherit',
+    marginTop: '80px'
+  },
+  appbar: {
+    backgroundColor: '#777'
+  }
+};
+
 class App extends Component {
-  getUser() {
-    fetch('http://localhost:5000/users/1')
-      .then(function(response) {
-        if (response.status >= 400) {
-            throw new Error("Bad response from server");
-        }
-        return response.json();
-      }).then(function(data) {
-        return data;
-      });
+  componentWillMount() {
+    getUser((user) => {
+      console.log(user);
+    });
   }
   render() {
     return (
       <MuiThemeProvider>
         <div className="App">
-          <div className="App-header">
-            <h2>Welcome Back!</h2>
-            {this.getUser()}
-          </div>
-          <TextField
-            hintText="Enter Email Address" />
+          <Card
+            style={styles.card} >
+            <AppBar
+              style={styles.appbar}
+              title="Welcome Back!"
+              showMenuIconButton={false} />
+            <TextField
+              hintText="Enter Email Address" />
+          </Card>
         </div>
       </MuiThemeProvider>
     );
