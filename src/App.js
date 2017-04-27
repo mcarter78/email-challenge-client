@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Card from 'material-ui/Card';
-import { getUser } from './utils/utils';
-import Login from './components/Login';
+import LoginButton from './components/LoginButton';
 import './App.css';
 
 const styles = {
@@ -13,10 +13,15 @@ const styles = {
 };
 
 class App extends Component {
-  componentWillMount() {
-    getUser((user) => {
-      console.log(user);
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false
+    }
+  }
+  handleLogin() {
+    this.setState({ loggedIn: true });
+    browserHistory.push('/login');
   }
   render() {
     return (
@@ -24,7 +29,12 @@ class App extends Component {
         <div className="App">
           <Card
             style={styles.card} >
-            <Login />
+            {this.state.loggedIn ? ( null )
+            : (
+              <LoginButton
+                click={() => this.handleLogin()} />
+            )}
+            {this.props.children}
           </Card>
         </div>
       </MuiThemeProvider>
