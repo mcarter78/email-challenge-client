@@ -18,6 +18,8 @@ class EmailInput extends Component {
           onKeyPress={this.props.keyPress}
           type="email"
           hintText={this.props.text}
+          errorText={this.props.error}
+          disabled={this.props.disable}
           value={this.props.current}
           underlineFocusStyle={styles.underline}
         />

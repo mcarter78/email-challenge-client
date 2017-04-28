@@ -14,6 +14,26 @@ export function getUser(id, cb) {
     });
 }
 
+export function updateUser(user, cb) {
+  request
+    .put('/users/' + user.id)
+    .send({
+      id: user.id,
+      email: user.email,
+      token: user.token,
+      new_email: user.newEmail,
+      marketing: user.marketing,
+      articles: user.articles,
+      digest: user.digest
+    })
+    .end((err, res) => {
+      if (err) {
+        throw new Error("Bad response from server");
+      }
+      return cb(JSON.parse(res.text));
+    })
+}
+
 export function login(email, cb) {
   request
     .post('/api/login')
