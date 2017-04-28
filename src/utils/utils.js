@@ -2,8 +2,21 @@ import 'es6-promise';
 import 'isomorphic-fetch';
 import request from 'superagent';
 
-export function getUser(id, cb) {
+export function getUserNoToken(id, cb) {
   fetch('/api/users/' + id)
+    .then((response) => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return cb(data);
+    });
+}
+
+export function getUser(id, cb) {
+  fetch('/api/users/' + id + '/edit')
     .then(function(response) {
       if (response.status >= 400) {
         throw new Error("Bad response from server");

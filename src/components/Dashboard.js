@@ -40,6 +40,8 @@ class Dashboard extends Component {
     this.state = {
       user: {},
       token: {},
+      message: '',
+      errorMessage: '',
       confirmDisabled: true,
       marketingDisabled: false,
       articlesDisabled: false,
@@ -55,7 +57,7 @@ class Dashboard extends Component {
     const userId = this.props.params.id;
     getUser(userId, (data) => {
       this.setState({ user: data.user, token: data.token })
-      browserHistory.push('/users/' + userId + '?email=' + data.user.email + '&token=' + data.token.nonce)
+      browserHistory.push('/users/' + userId + '/edit?email=' + data.user.email + '&token=' + data.token.nonce)
     });
   }
   handleEnter(e) {
@@ -134,6 +136,12 @@ class Dashboard extends Component {
       // call updateUser, passing user object
       updateUser(user, (data) => {
         console.log(data);
+        if (!data.id) {
+          // Display error message
+          this.setState({ errorMessage: data[0] });
+        } else {
+          browserHistory.push('/users/' + user.id);
+        }
       })
     }
   }

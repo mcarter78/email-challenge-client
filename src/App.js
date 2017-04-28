@@ -27,16 +27,21 @@ const styles = {
 class App extends Component {
   constructor(props) {
     super(props);
+    // Initialize state tree
     this.state = {
       loggedIn: false
     }
   }
   handleLogin() {
+    // Set loggedIn to true in state
     this.setState({ loggedIn: true });
+    // Redirect to login page
     browserHistory.push('/login');
   }
   escape() {
+    // Set loggedIn to false in state
     this.setState({ loggedIn: false });
+    // Go back to start page
     browserHistory.push('/');
   }
   render() {

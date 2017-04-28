@@ -49,7 +49,7 @@ class Login extends Component {
         this.setState({ message: 'Invalid Email!' });
       } else {
         // Redirect to user's dashboard
-        browserHistory.push('/users/' + data.id)
+        browserHistory.push('/users/' + data.id + '/edit')
       }
       // Clear input field
       this.setState({ email: '' });
