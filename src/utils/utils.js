@@ -15,8 +15,9 @@ export function getUser(id, cb) {
 }
 
 export function updateUser(user, cb) {
+  console.log(user);
   request
-    .put('/users/' + user.id)
+    .put('/api/users/' + user.id)
     .send({
       id: user.id,
       email: user.email,
@@ -31,7 +32,7 @@ export function updateUser(user, cb) {
         throw new Error("Bad response from server");
       }
       return cb(JSON.parse(res.text));
-    })
+    });
 }
 
 export function login(email, cb) {

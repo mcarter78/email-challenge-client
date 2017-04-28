@@ -5,7 +5,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { orange500 } from 'material-ui/styles/colors';
 import EmailInput from './EmailInput';
 import SaveButton from './SaveButton';
-import { getUser } from '../utils/utils';
+import { getUser, updateUser } from '../utils/utils';
 
 const styles = {
   appbar: {
@@ -46,11 +46,9 @@ class Dashboard extends Component {
       digestDisabled: false,
       newEmail: '',
       newEmailConfirm: '',
-      prefs: {
-        marketing: false,
-        articles: false,
-        digest: false
-      }
+      marketing: false,
+      articles: false,
+      digest: false
     }
   }
   componentWillMount() {
@@ -79,23 +77,23 @@ class Dashboard extends Component {
   }
   handleMarketingCheck(e, checked) {
     if (checked) {
-      this.setState({ prefs: { marketing: true } });
+      this.setState({ marketing: true });
     } else {
-      this.setState({ prefs: { marketing: false } });
+      this.setState({ marketing: false });
     }
   }
   handleArticlesCheck(e, checked) {
     if (checked) {
-      this.setState({ prefs: { articles: true } });
+      this.setState({ articles: true });
     } else {
-      this.setState({ prefs: { articles: false } });
+      this.setState({ articles: false });
     }
   }
   handleDigestCheck(e, checked) {
     if (checked) {
-      this.setState({ prefs: { digest: true } });
+      this.setState({ digest: true });
     } else {
-      this.setState({ prefs: { digest: false } });
+      this.setState({ digest: false });
     }
   }
   handleNoEmailsCheck(e, checked) {
@@ -104,11 +102,9 @@ class Dashboard extends Component {
         marketingDisabled: true,
         articlesDisabled: true,
         digestDisabled: true,
-        prefs: {
-          marketing: false,
-          articles: false,
-          digest: false
-        }
+        marketing: false,
+        articles: false,
+        digest: false
       });
     } else {
       this.setState({
@@ -119,14 +115,26 @@ class Dashboard extends Component {
     }
   }
   handleSubmit() {
-    console.log('submit');
     const newEmail = this.state.newEmail;
     const confirm = this.state.newEmailConfirm;
     // If new email and confirm do not match
     if (newEmail !== confirm) {
       // Throw error
     } else {
-      // call updateUser, pass email & token from query params + newEmail & prefs
+      // Build a user object to send
+      const user = {
+        id: this.props.params.id,
+        email: this.props.location.query.email,
+        token: this.props.location.query.token,
+        newEmail: this.state.newEmail,
+        marketing: this.state.marketing,
+        articles: this.state.articles,
+        digest: this.state.digest
+      };
+      // call updateUser, passing user object
+      updateUser(user, (data) => {
+        console.log(data);
+      })
     }
   }
   render() {

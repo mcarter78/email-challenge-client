@@ -22,25 +22,37 @@ const styles = {
 class Login extends Component {
   constructor(props) {
     super(props);
+    // Initialize state tree
     this.state = {
-      email: ''
+      email: '',
+      message: ''
     }
   }
   handleEmailChange(e, newString) {
-    this.setState({ email: newString });
+    // Set the new email in state, and clear error message
+    this.setState({ email: newString, message: '' });
   }
   handleEnter(e) {
     // If enter key pressed
     if (e.charCode === 13) {
+      // Call the submit function
       this.handleSubmit();
     }
   }
   handleSubmit() {
     const email = this.state.email
+    // call login utility function, pass the email from input
     login(email, (data) => {
-      console.log(data);
+      // if there is no user returned
+      if (!data.id) {
+        // Display error message
+        this.setState({ message: 'Invalid Email!' });
+      } else {
+        // Redirect to user's dashboard
+        browserHistory.push('/users/' + data.id)
+      }
+      // Clear input field
       this.setState({ email: '' });
-      browserHistory.push('/users/' + data.id)
     });
   }
   render() {
@@ -54,6 +66,7 @@ class Login extends Component {
           styles={styles.input}
           current={this.state.email}
           text="Enter Email Address"
+          error={this.state.message}
           change={(event, newString) => this.handleEmailChange(event, newString)}
           keyPress={(event) => this.handleEnter(event)} />
         <LoginButton
