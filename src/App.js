@@ -9,18 +9,9 @@ import StartButton from './components/StartButton';
 import './App.css';
 
 const styles = {
-  card: {
-    height: 'inherit',
-    marginTop: '80px'
-  },
   appbar: {
     backgroundColor: '#777',
     marginBottom: '40px'
-  },
-  escape: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px'
   }
 };
 
@@ -49,10 +40,10 @@ class App extends Component {
       <MuiThemeProvider>
         <div className="App">
           <Card
-            style={styles.card} >
+            className="main-card">
             {this.state.loggedIn ? (
              <FloatingActionButton
-               style={styles.escape}
+               className="escape"
                backgroundColor={'#777'}
                onTouchTap={() => this.escape()}>
                  <ArrowBack />

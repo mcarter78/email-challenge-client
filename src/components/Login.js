@@ -8,14 +8,6 @@ import { login } from '../utils/utils';
 const styles = {
   appbar: {
     backgroundColor: '#777'
-  },
-  input: {
-    width: '40%',
-    marginTop: '40px'
-  },
-  button: {
-    width: '40%',
-    marginTop: '10px'
   }
 };
 
@@ -63,14 +55,13 @@ class Login extends Component {
           title="Welcome Back!"
           showMenuIconButton={false} />
         <EmailInput
-          styles={styles.input}
+          classy="login-input"
           current={this.state.email}
           text="Enter Email Address"
           error={this.state.message}
           change={(event, newString) => this.handleEmailChange(event, newString)}
           keyPress={(event) => this.handleEnter(event)} />
         <LoginButton
-          styles={styles.button}
           click={() => this.handleSubmit()} />
       </div>
     )

@@ -4,8 +4,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 class LoginButton extends Component {
   render() {
     return (
-      <div className="login-button">
+      <div>
         <RaisedButton
+          className="login-button"
           style={this.props.styles}
           onTouchTap={this.props.click}
           label="Login"

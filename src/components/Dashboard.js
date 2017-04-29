@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppBar from 'material-ui/AppBar';
+import SnackBar from 'material-ui/Snackbar';
 import Checkbox from 'material-ui/Checkbox';
 import { orange500 } from 'material-ui/styles/colors';
 import EmailInput from './EmailInput';
@@ -19,16 +20,6 @@ const styles = {
     width: '40%',
     marginTop: '20px'
   },
-  left: {
-    width: '48%',
-    float: 'left',
-    paddingLeft: '10px'
-  },
-  right: {
-    textAlign: 'left',
-    width: '48%',
-    float: 'left'
-  },
   box: {
     fill: orange500
   }
@@ -42,6 +33,7 @@ class Dashboard extends Component {
       token: {},
       message: '',
       errorMessage: '',
+      open: false,
       confirmDisabled: true,
       marketingDisabled: false,
       articlesDisabled: false,
@@ -76,6 +68,14 @@ class Dashboard extends Component {
   }
   handleNewEmailConfirmChange(e, newString) {
     this.setState({ newEmailConfirm: newString });
+    const newEmail = this.state.newEmail;
+    // If new email and confirm match
+    if (newEmail === newString) {
+      this.setState({ message: '' });
+    } else {
+      // If not, throw error
+      this.setState({ message: 'Emails do not match!' });
+    }
   }
   handleMarketingCheck(e, checked) {
     if (checked) {
@@ -122,6 +122,7 @@ class Dashboard extends Component {
     // If new email and confirm do not match
     if (newEmail !== confirm) {
       // Throw error
+      this.setState({ errorMessage: 'Error! Emails do not match!', open: true });
     } else {
       // Build a user object to send
       const user = {
@@ -138,7 +139,7 @@ class Dashboard extends Component {
         console.log(data);
         if (!data.id) {
           // Display error message
-          this.setState({ errorMessage: data[0] });
+          this.setState({ errorMessage: data[0], open: true });
         } else {
           browserHistory.push('/users/' + user.id);
         }
@@ -165,9 +166,11 @@ class Dashboard extends Component {
             change={(event, newString) => this.handleNewEmailChange(event, newString)}
             keyPress={(event) => this.handleEnter(event)} />
           <EmailInput
+            class='confirmInput'
             styles={styles.input}
             current={this.state.newEmailConfirm}
             text="Confirm New Email Address"
+            error={this.state.message}
             change={(event, newString) => this.handleNewEmailConfirmChange(event, newString)}
             keyPress={(event) => this.handleEnter(event)}
             disable={this.state.confirmDisabled} />
@@ -199,6 +202,10 @@ class Dashboard extends Component {
         <SaveButton
           styles={styles.button}
           click={(event) => this.handleSubmit(event)}/>
+        <SnackBar
+          open={this.state.open}
+          autoHideDuration={3000}
+          message={this.state.errorMessage} />
       </div>
     )
   }

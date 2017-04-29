@@ -13,6 +13,7 @@ class EmailInput extends Component {
     return (
       <div className="email-input">
         <TextField
+          className={this.props.classy}
           style={this.props.styles}
           onChange={this.props.change}
           onKeyPress={this.props.keyPress}
