@@ -28,6 +28,7 @@ const styles = {
 class Dashboard extends Component {
   constructor(props) {
     super(props);
+    // Initialize state tree
     this.state = {
       user: {},
       token: {},
@@ -47,30 +48,40 @@ class Dashboard extends Component {
   }
   componentWillMount() {
     const userId = this.props.params.id;
+    // Call getUser utility function with id from url params
     getUser(userId, (data) => {
+      // Set User and Token in state tree
       this.setState({ user: data.user, token: data.token })
+      // Redirect browser to edit page, adding email & token to query params
       browserHistory.push('/users/' + userId + '/edit?email=' + data.user.email + '&token=' + data.token.nonce)
     });
   }
   handleEnter(e) {
     // If enter key pressed
     if (e.charCode === 13) {
+      // Call submit function
       this.handleSubmit();
     }
   }
   handleNewEmailChange(e, newString) {
+    // Set value from event as newEmail in state
     this.setState({ newEmail: newString });
+    // If value is empty
     if (this.state.newEmail !== '') {
+      // Enable confirm input
       this.setState({ confirmDisabled: false });
     } else {
+      // Disable confirm input
       this.setState({ confirmDisabled: true });
     }
   }
   handleNewEmailConfirmChange(e, newString) {
+    // Set value from event as newEmailConfirm in state
     this.setState({ newEmailConfirm: newString });
     const newEmail = this.state.newEmail;
     // If new email and confirm match
     if (newEmail === newString) {
+      // remove error message
       this.setState({ message: '' });
     } else {
       // If not, throw error
@@ -78,28 +89,39 @@ class Dashboard extends Component {
     }
   }
   handleMarketingCheck(e, checked) {
+    // If checkbox is checked
     if (checked) {
+      // set to true in state
       this.setState({ marketing: true });
     } else {
+      // set to false in state
       this.setState({ marketing: false });
     }
   }
   handleArticlesCheck(e, checked) {
+    // If checkbox is checked
     if (checked) {
+      // set to true in state
       this.setState({ articles: true });
     } else {
+      // set to false in state
       this.setState({ articles: false });
     }
   }
   handleDigestCheck(e, checked) {
+    // If checkbox is checked
     if (checked) {
+      // set to true in state
       this.setState({ digest: true });
     } else {
+      // set to false in state
       this.setState({ digest: false });
     }
   }
   handleNoEmailsCheck(e, checked) {
+    // If checkbox is checked
     if (checked) {
+      // Disable other checkboxes and set all to false
       this.setState({
         marketingDisabled: true,
         articlesDisabled: true,
@@ -109,6 +131,7 @@ class Dashboard extends Component {
         digest: false
       });
     } else {
+      // Enable other checkboxes
       this.setState({
         marketingDisabled: false,
         articlesDisabled: false,
@@ -141,6 +164,7 @@ class Dashboard extends Component {
           // Display error message
           this.setState({ errorMessage: data[0], open: true });
         } else {
+          // Redirect browser to Done page
           browserHistory.push('/users/' + user.id);
         }
       })

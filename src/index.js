@@ -10,6 +10,8 @@ import './index.css';
 
 injectTapEventPlugin();
 
+// Create routes and assign components to them
+// Then append to div#root in index.html
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
