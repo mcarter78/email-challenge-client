@@ -67,12 +67,12 @@ class Dashboard extends Component {
     // Set value from event as newEmail in state
     this.setState({ newEmail: newString });
     // If value is empty
-    if (this.state.newEmail !== '') {
-      // Enable confirm input
-      this.setState({ confirmDisabled: false });
-    } else {
+    if (this.state.newEmail === '') {
       // Disable confirm input
       this.setState({ confirmDisabled: true });
+    } else {
+      // Enable confirm input
+      this.setState({ confirmDisabled: false });
     }
   }
   handleNewEmailConfirmChange(e, newString) {

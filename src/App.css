@@ -33,18 +33,12 @@
 }
 
 .login-button {
-  width: 40%;
+  width: 256px;
   margin-top: 10px;
 }
 
 .email-input {
   margin-top: -7px;
-}
-
-@media (max-width: 1024px) {
-  .login-button {
-    width: 80%;
-  }
 }
 
 @media (max-width: 768px) {
